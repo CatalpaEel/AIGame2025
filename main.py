@@ -1,13 +1,15 @@
 from openai import OpenAI
 import json
 
-class InputAnalysis:
+from api_key import deepseek_api_key, deepseek_base_url
+
+class InputAnalyst:
     """
     Analyze user input and extract event information using Deepseek API.
     """
 
     def __init__(self):
-        self.client = OpenAI(api_key="sk-f18975649d024d95b03fc13ea45aa07b", base_url="https://api.deepseek.com")
+        self.client = OpenAI(api_key=deepseek_api_key, base_url=deepseek_base_url)
         self.system_prompt = """
         你是北京大学信息科学学院学生会的一名经验丰富的同学。
         你将要帮助用户解析出活动的显性信息（活动类型、主题方向、初步构想等），并通过推理补全隐性信息（隐性信息：目标受众、活动规模、时间安排、可能的合作方等）。
@@ -36,10 +38,32 @@ class InputAnalysis:
         return json.loads(response.choices[0].message.content)
 
 
+class ActivityDesigner:
+    """
+    Design activities based on user input using Deepseek API.
+    """
+    def __init__(self):
+        pass # TODO
+
+
+class ArticleWriter:
+    """
+    Write articles based on user input and reference data using Deepseek API.
+    """
+    def __init__(self):
+        pass # TODO
+
+
 if __name__ == "__main__":
-    input_agent = InputAnalysis()
+    input_agent = InputAnalyst()
+    # activity_agent = ActivityDesigner()
+    # article_agent = ArticleWriter()
     input_text = ""
     input_text = input("Enter your input (or 'exit' to quit): ")
     analysis_result = input_agent.analyze_input(input_text)
     print(analysis_result)
+
+    # TODO
+
+    # 数据从reference.json文件里面读，协调好格式
 
