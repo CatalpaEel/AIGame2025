@@ -1,7 +1,9 @@
 from openai import OpenAI
 import json
 
-from api_key import deepseek_api_key, deepseek_base_url
+from api_key import deepseek_api_key
+
+deepseek_base_url = "https://api.deepseek.com"
 
 class InputAnalyst:
     """
