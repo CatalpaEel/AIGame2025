@@ -40,22 +40,6 @@ class InputAnalyst:
         return json.loads(response.choices[0].message.content)
 
 
-class ActivityDesigner:
-    """
-    Design activities based on user input using Deepseek API.
-    """
-    def __init__(self):
-        pass # TODO
-
-
-class ArticleWriter:
-    """
-    Write articles based on user input and reference data using Deepseek API.
-    """
-    def __init__(self):
-        pass # TODO
-
-
 if __name__ == "__main__":
     input_agent = InputAnalyst()
     # activity_agent = ActivityDesigner()
