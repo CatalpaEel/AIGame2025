@@ -1,0 +1,422 @@
+[
+  {
+    "structure_anatomy": [
+      "悬念导入-成果背书-情感号召",
+      "活动详情-流程介绍-报名方式"
+    ],
+    "stylistic_profile": {
+      "tone_matrix": [
+        "学术严谨性40%",
+        "人文关怀30%",
+        "年轻化表达30%"
+      ],
+      "rhetoric_signature": [
+        "排比造势",
+        "数据增强说服",
+        "隐喻降低认知门槛"
+      ],
+      "narrative_flow": "问题导向型：痛点-解决方案-价值升华"
+    },
+    "semiotic_keywords": {
+      "core": [
+        "华为北京研究所",
+        "5G",
+        "AI",
+        "云计算"
+      ],
+      "emotion": [
+        "科技报国",
+        "先锋精神",
+        "数字原生代"
+      ],
+      "action": [
+        "报名",
+        "扫描二维码",
+        "加入我们"
+      ]
+    },
+    "engagement_design": {
+      "hook_type": "反常识陈述/紧迫场景构建",
+      "closure_impact": "开放式提问/二维码转化入口"
+    },
+    "psychographic_insights": {
+      "identity_anchor": "强化'北大信科人'共同体认知",
+      "value_trigger": "科研理想主义+实用技能认证"
+    },
+    "replication_blueprint": {
+      "template_pattern": "SCQA模型变体：现状-冲突-提问-学院方案",
+      "metaphor_bank": [
+        "星辰大海：科技探索",
+        "交响乐章：算法与数据"
+      ]
+    },
+    "filename": "华为北研所参访.txt"
+  },
+  {
+    "structure_anatomy": [
+      "政策背景引入",
+      "活动概览",
+      "赛事详情",
+      "互动问答",
+      "报名指南",
+      "赞助鸣谢"
+    ],
+    "stylistic_profile": {
+      "tone_matrix": [
+        "学术严谨性40%",
+        "激励性30%",
+        "亲和力30%"
+      ],
+      "rhetoric_signature": [
+        "数据支撑",
+        "排比列举",
+        "直接问答"
+      ],
+      "narrative_flow": "目标导向型：背景-活动-细节-激励-行动"
+    },
+    "semiotic_keywords": {
+      "core": [
+        "程序设计竞赛",
+        "学术科创季",
+        "ACM赛制"
+      ],
+      "emotion": [
+        "责任感与使命感",
+        "展示才华",
+        "暖心"
+      ],
+      "action": [
+        "报名",
+        "加入群聊",
+        "扫描二维码"
+      ]
+    },
+    "engagement_design": {
+      "hook_type": "政策与教育背景关联",
+      "closure_impact": "联系方式和社群二维码"
+    },
+    "psychographic_insights": {
+      "identity_anchor": "北京大学信息科学技术学院学生",
+      "value_trigger": "学术成就与职业发展机会"
+    },
+    "replication_blueprint": {
+      "template_pattern": "背景-活动介绍-详细规则-激励措施-行动号召",
+      "metaphor_bank": [
+        "舞台：展示才华",
+        "航海：学术探索"
+      ]
+    },
+    "filename": "学术科创季丨北京大学第二十三届.txt"
+  },
+  {
+    "structure_anatomy": [
+      "悬念导入-活动预告-内容详述-主讲人介绍-报名信息"
+    ],
+    "stylistic_profile": {
+      "tone_matrix": [
+        "年轻化表达50%",
+        "学术严谨性30%",
+        "人文关怀20%"
+      ],
+      "rhetoric_signature": [
+        "排比造势",
+        "隐喻降低认知门槛",
+        "数据增强说服"
+      ],
+      "narrative_flow": "问题导向型：痛点-解决方案-价值升华"
+    },
+    "semiotic_keywords": {
+      "core": [
+        "专业分流",
+        "茶话会",
+        "CS专场",
+        "EE专场"
+      ],
+      "emotion": [
+        "万物复苏",
+        "轻松愉快",
+        "志同道合"
+      ],
+      "action": [
+        "报名",
+        "扫描二维码",
+        "填写问卷"
+      ]
+    },
+    "engagement_design": {
+      "hook_type": "反常识陈述（猫学长口吐人言）",
+      "closure_impact": "二维码转化入口"
+    },
+    "psychographic_insights": {
+      "identity_anchor": "强化'北大信科人'共同体认知",
+      "value_trigger": "科研理想主义+实用技能认证"
+    },
+    "replication_blueprint": {
+      "template_pattern": "SCQA模型变体：现状-冲突-提问-学院方案",
+      "metaphor_bank": [
+        "茶话会→学术交流的轻松场合",
+        "攻城狮→信息科技的探索者"
+      ]
+    },
+    "filename": "报名丨攻城狮的茶话会——专业分流专场.txt"
+  },
+  {
+    "structure_anatomy": [
+      "悬念导入-节目预告-演员采访-活动详情-特别鸣谢"
+    ],
+    "stylistic_profile": {
+      "tone_matrix": [
+        "年轻化表达50%",
+        "人文关怀30%",
+        "学术严谨性20%"
+      ],
+      "rhetoric_signature": [
+        "排比造势",
+        "数据增强说服",
+        "隐喻降低认知门槛"
+      ],
+      "narrative_flow": "问题导向型：晚会期待-节目亮点-参与方式"
+    },
+    "semiotic_keywords": {
+      "core": [
+        "新年晚会",
+        "节目预告"
+      ],
+      "emotion": [
+        "燃",
+        "奇迹",
+        "激情与快乐"
+      ],
+      "action": [
+        "点击查看",
+        "转发本推送",
+        "期待大家的到来"
+      ]
+    },
+    "engagement_design": {
+      "hook_type": "反常识陈述（‘我先与大家分享一下我的好事，我今年减肥了40斤！’）",
+      "closure_impact": "开放式提问（‘我们不见不散！’）"
+    },
+    "psychographic_insights": {
+      "identity_anchor": "强化‘大信科人’共同体认知",
+      "value_trigger": "科研理想主义+实用技能认证"
+    },
+    "replication_blueprint": {
+      "template_pattern": "SCQA模型变体：现状-冲突-提问-学院方案",
+      "metaphor_bank": [
+        "攀登者：科研攻关",
+        "航海：学术探索"
+      ]
+    },
+    "filename": "新年晚会推送.txt"
+  },
+  {
+    "structure_anatomy": [
+      "悬念导入-活动预告-详细说明-情感号召"
+    ],
+    "stylistic_profile": {
+      "tone_matrix": [
+        "活力激情50%",
+        "亲切关怀30%",
+        "正式通知20%"
+      ],
+      "rhetoric_signature": [
+        "排比造势",
+        "动词强调行动",
+        "季节与青春意象"
+      ],
+      "narrative_flow": "活动引入-细节展开-情感升华"
+    },
+    "semiotic_keywords": {
+      "core": [
+        "羽毛球比赛",
+        "信科杯",
+        "师生院友"
+      ],
+      "emotion": [
+        "热爱",
+        "青春",
+        "活力"
+      ],
+      "action": [
+        "报名参赛",
+        "扫描二维码",
+        "填写问卷"
+      ]
+    },
+    "engagement_design": {
+      "hook_type": "季节与活动结合的温馨场景构建",
+      "closure_impact": "激励性口号与具体行动指引"
+    },
+    "psychographic_insights": {
+      "identity_anchor": "强化‘信科人’的集体参与感和归属感",
+      "value_trigger": "体育竞技的乐趣与社区归属感"
+    },
+    "replication_blueprint": {
+      "template_pattern": "活动预告标准结构：引入-详情-号召",
+      "metaphor_bank": [
+        "羽毛球比赛→青春的较量",
+        "赛场→历练的舞台"
+      ]
+    },
+    "filename": "活动2025年“信科杯”师生院友羽毛球比赛火热来袭！.txt"
+  },
+  {
+    "structure_anatomy": [
+      "悬念导入-活动介绍-规则说明-报名引导-情感号召"
+    ],
+    "stylistic_profile": {
+      "tone_matrix": [
+        "人文关怀50%",
+        "年轻化表达40%",
+        "学术严谨性10%"
+      ],
+      "rhetoric_signature": [
+        "排比造势",
+        "隐喻降低认知门槛",
+        "数据增强说服"
+      ],
+      "narrative_flow": "问题导向型：痛点-解决方案-价值升华"
+    },
+    "semiotic_keywords": {
+      "core": [
+        "春日活动",
+        "双人打卡交友",
+        "定向越野"
+      ],
+      "emotion": [
+        "春日浪漫",
+        "难忘的回忆",
+        "友谊"
+      ],
+      "action": [
+        "报名",
+        "加入我们",
+        "共赴"
+      ]
+    },
+    "engagement_design": {
+      "hook_type": "紧迫场景构建（‘你是否也曾被ddl困住脚步...’）",
+      "closure_impact": "情感号召+二维码转化入口"
+    },
+    "psychographic_insights": {
+      "identity_anchor": "强化‘三校七院’共同体认知",
+      "value_trigger": "社交需求满足+活动趣味性"
+    },
+    "replication_blueprint": {
+      "template_pattern": "SCQA模型变体：现状-冲突-提问-活动方案",
+      "metaphor_bank": [
+        "春日浪漫→情感联结",
+        "星河→友谊的璀璨"
+      ]
+    },
+    "filename": "活动丨“偏我来时春满园”三校七院春日活动开启！.txt"
+  },
+  {
+    "structure_anatomy": [
+      "悬念导入-成果背书-情感号召",
+      "活动详情介绍",
+      "参与方式说明",
+      "结尾号召"
+    ],
+    "stylistic_profile": {
+      "tone_matrix": [
+        "学术严谨性40%",
+        "人文关怀40%",
+        "年轻化表达20%"
+      ],
+      "rhetoric_signature": [
+        "排比造势",
+        "隐喻降低认知门槛",
+        "数据增强说服"
+      ],
+      "narrative_flow": "问题导向型：痛点-解决方案-价值升华"
+    },
+    "semiotic_keywords": {
+      "core": [
+        "AI",
+        "书籍",
+        "漂流"
+      ],
+      "emotion": [
+        "震撼",
+        "渴望",
+        "平和"
+      ],
+      "action": [
+        "捐赠",
+        "领取",
+        "推荐"
+      ]
+    },
+    "engagement_design": {
+      "hook_type": "反常识陈述",
+      "closure_impact": "开放式提问"
+    },
+    "psychographic_insights": {
+      "identity_anchor": "强化'北大信科人'共同体认知",
+      "value_trigger": "科研理想主义+实用技能认证"
+    },
+    "replication_blueprint": {
+      "template_pattern": "SCQA模型变体：现状-冲突-提问-学院方案",
+      "metaphor_bank": [
+        "攀登者：科研攻关",
+        "航海：学术探索"
+      ]
+    },
+    "filename": "活动当AI与书籍相遇——世界读书日AI书漂流之旅.txt"
+  },
+  {
+    "structure_anatomy": [
+      "悬念导入-成果背书-情感号召",
+      "活动详情-讲师招募-学生报名",
+      "结尾升华"
+    ],
+    "stylistic_profile": {
+      "tone_matrix": [
+        "学术严谨性40%",
+        "人文关怀40%",
+        "年轻化表达20%"
+      ],
+      "rhetoric_signature": [
+        "排比造势",
+        "数据增强说服",
+        "隐喻降低认知门槛"
+      ],
+      "narrative_flow": "问题导向型：痛点-解决方案-价值升华"
+    },
+    "semiotic_keywords": {
+      "core": [
+        "学业辅导",
+        "讲师招募",
+        "学生报名"
+      ],
+      "emotion": [
+        "茫然焦虑",
+        "春日的温暖",
+        "自信前行"
+      ],
+      "action": [
+        "扫码报名",
+        "填写下方报名问卷",
+        "期待为你进步助力"
+      ]
+    },
+    "engagement_design": {
+      "hook_type": "紧迫场景构建（‘期中却也悄然临近’）",
+      "closure_impact": "开放式提问+二维码转化入口"
+    },
+    "psychographic_insights": {
+      "identity_anchor": "强化‘信科青协人’共同体认知",
+      "value_trigger": "服务人民、助人为乐的雷锋精神+实用技能认证"
+    },
+    "replication_blueprint": {
+      "template_pattern": "SCQA模型变体：现状-冲突-提问-学院方案",
+      "metaphor_bank": [
+        "春季是新年伊始，是希望的季节",
+        "学业上的困难，并不可怕"
+      ]
+    },
+    "filename": "辅导新学期信科青协“信”心行动学业辅导讲师招募&学生报名.txt"
+  }
+]
