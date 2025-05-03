@@ -6,7 +6,10 @@ import uuid
 
 import requests
 
-from api_key import  liblibai_access_key, liblibai_secret_key
+from openai import OpenAI
+
+from api_key import  liblibai_access_key, liblibai_secret_key, deepseek_api_key
+
 
 class ImageGenerator:
 
@@ -114,6 +117,7 @@ class ImageGenerator:
                 response = requests.post(url=self.status_url, headers=self.headers, json=data)
                 response.raise_for_status()
                 progress = response.json()
+                print("debug:", progress)
                 print("图片生成中：",progress['data']['percentCompleted'] * 100, "%") # [BUG] 50-0-0-0-0-90-100
 
                 if progress['data'].get('images') and any(
@@ -144,18 +148,65 @@ class ImageGenerator:
         return response.content
 
 
+class ImagePrompter:
+    """
+    Generate prompt for ImageGenerator
+    """
+    def __init__(self):
+        self.client = OpenAI(api_key=deepseek_api_key, base_url="https://api.deepseek.com")
+        self.system_prompt = """
+        你是一位大模型提示词生成专家。学生会将要举办一次活动，请根据用户的需求编写一个文生图模型的英文提示词，来指导大模型进行活动宣传海报的生成。
+        用户会给出需求。除提示词外不要添加任何其他内容，不要擅自增加信息。输出包括：主题、背景、配色、排版等等。
+        
+        例子：
+        Create a promotional graphic for a New Year's Eve event.
+        The design should incorporate a circular motif with a dashed border, featuring abstract geometric shapes and splashes of warm colors like orange, yellow, and pink in the background.
+        The text "星光E彩-2019-" should be prominently displayed within the circle, using a bold, modern font with a 3D effect.
+        The overall style should be festive and contemporary, with a focus on geometric shapes and a watercolor-like splash effect in the background.
+        """
+        
+    def generate_prompt(self, input):
+        response = self.client.chat.completions.create(
+            model="deepseek-chat",
+            messages=[
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": input},
+            ],
+            stream=False
+        )
+        prompt = response.choices[0].message.content
+        print(f"文生图提示词已生成: \n{prompt}")
+        return prompt
+
+
 if __name__ == "__main__":
     # Example
 
     text_base_link = "https://img.picui.cn/free/2025/04/30/681243c98befb.png"
+    # prompt = """
+    #     Create a promotional graphic for a New Year's Eve event titled "星光E彩-2019-" in Chinese.
+    #     The design should incorporate a circular motif with a dashed border, featuring abstract geometric shapes and splashes of warm colors like orange, yellow, and pink in the background.
+    #     The text "星光E彩-2019-" in Chinese should be prominently displayed within the circle, using a bold, modern font with a 3D effect.
+    #     Include additional text on the right side of the circle that reads "距2019年信科新年晚会 还有1天" in Chinese in a clean, sans-serif font, with the number "1" highlighted in red.
+    #     Add a hashtag "#信科新年晚会#" in Chinese at the bottom left of the circle.
+    #     The overall style should be festive and contemporary, with a focus on geometric shapes and a watercolor-like splash effect in the background.
+    #     """
+    # img_prompt_agent = ImagePrompter()
+    # input = "{'type': '比赛', 'subject': 'AI与大模型', 'schedule': '给定数据集和基本的代码，让选手调参', 'objective': '系统性解析大模型技术演进脉络，探讨自然语言处理、多模态学习等领域的最新突破；构建开放交流场域，促进学术界与产业界在算力优化、数据治理、伦理规范等关键议题上的协同创新；激发青年学子技术热忱，通过案例剖析与实战工作坊培养复合型AI人才，助力国家人工智能战略与交叉学科创新发展', 'scale': '待定', 'time': '4月下旬：大模型训练挑战赛预热推送&报名推送，5月中旬：大模型训练挑战赛总结推送', 'place': '北京大学信息科学技术学院', 'cooperation': 'Linux社'}"
+    # prompt = img_prompt_agent.generate_prompt(input)
+
     prompt = """
-        Create a promotional graphic for a New Year's Eve event titled "星光E彩-2019-" in Chinese.
-        The design should incorporate a circular motif with a dashed border, featuring abstract geometric shapes and splashes of warm colors like orange, yellow, and pink in the background.
-        The text "星光E彩-2019-" in Chinese should be prominently displayed within the circle, using a bold, modern font with a 3D effect.
-        Include additional text on the right side of the circle that reads "距2019年信科新年晚会 还有1天" in Chinese in a clean, sans-serif font, with the number "1" highlighted in red.
-        Add a hashtag "#信科新年晚会#" in Chinese at the bottom left of the circle.
-        The overall style should be festive and contemporary, with a focus on geometric shapes and a watercolor-like splash effect in the background.
-        """
+        Create a promotional graphic for an AI and Large Model competition.
+        The design should feature a futuristic and tech-inspired theme with elements like neural networks, data streams, and coding syntax in the background. Use a cool color palette dominated by blues, purples, and metallic accents to emphasize innovation and technology.
+
+        The text "AI与大模型训练挑战赛" should be prominently displayed in a bold, modern font with a sleek 3D or holographic effect. Incorporate dynamic elements like glowing circuit lines or abstract digital particles to enhance the technological vibe.
+
+        Include secondary text blocks for key details:
+        - "北京大学信息科学技术学院 | 合作: Linux社"
+        - "4月下旬: 预热推送 | 5月中旬: 总结推送"
+
+        The layout should be clean and organized, balancing visual tech elements with readable typography. The overall style should be professional yet engaging, appealing to students and tech enthusiasts.
+    """
 
     painter = ImageGenerator()
     image = painter.generate_image(prompt=prompt, text_base=text_base_link, width=1024, height=768)
