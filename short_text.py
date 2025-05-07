@@ -1,4 +1,4 @@
-#这个项目实现根据活动策划案生成一个邮件推送，让我们能够在活动开始前给用户发送邮件提醒，并且能够根据用户的活动参与情况生成活动总结报告。
+#这个项目实现根据活动策划案生成一个短文本宣传语，让我们能够在活动开始前进行活动宣传。
 
 from openai import OpenAI
 import json
@@ -7,9 +7,9 @@ from api_key import deepseek_api_key
 
 deepseek_base_url = "https://api.deepseek.com"
 
-class MailDesigner:
+class ShortTextDesigner:
     """
-    Design mails based on ActivityDesigner using Deepseek API.
+    Design short text based on ActivityDesigner using Deepseek API.
     """
     def __init__(self):
         pass # TODO
@@ -119,76 +119,44 @@ class MailDesigner:
                 }
             }
         }
-        输出为解析后的活动信息，要求格式为可以推送给参加比赛的用户的邮件内容，包含以下内容：
+        输出为解析后的活动信息，要求格式为生动有趣的短文本宣传语，能够反应活动的内容，包含以下内容：
         {
-            
-                "email_subject": "【北京大学信息科学学院】{Event_Name}邀请函",
-                "recipient_greeting": "尊敬的{Participant_Type}",
-                
-                "body": [
-                    "您好！",
-                    "我们诚挚邀请您参加由北京大学信息科学学院主办的{Event_Name}，以下是活动详细信息：",
-                    
-                    "**活动类型**：{Competition/Lecture/Workshop}",
-                    "**主题方向**：{Technical_Domain}",
-                    "**核心目标**：{Cultivate_Technical_Skills/Industry-Academia_Integration}",
-                    "**时间安排**：{2023-11-15至11-17（含初赛/复赛/决赛）}",
-                    "**活动地点**：{PKU_Wang_Kezhen_Building_Smart_Lab}",
-                    
-                    "**目标受众**：{Target_Audience}",
-                    "**活动规模**：{200_Participants}",
-                    "**知识储备建议**：{Python/DeepLearning_Framework/Blockchain_Basics}",
-                    
-                    "featured_sessions": [
-                        "「{Phase_Name}」：{Technical_Highlights}",
-                        "「{Interactive_Module}」：{Innovation_Description}"
+            {
+                "type": "[竞赛/讲座/工作坊等]",
+                "subject": "【主标题】+【副标题】",
+                "schedule": {
+                    "stage_highlight": [
+                        "▸ 阶段名称（特色描述+emoji）",
+                        "▸ 阶段名称（技术关键词）"
                     ],
-                    
-                    "resources_support": [
-                        "{NVIDIA_V100_GPU_Cluster}",
-                        "{Open_Source_Datasets}",
-                        "{Academic_Committee_Formation}"
-                    ],
-                    
-                    "value_added_services": [
-                        "{Partner_Enterprise}实习内推资格",
-                        "{Journal_Publication}收录通道",
-                        "{Cloud_Computing_Credits}免费额度"
-                    ],
-                    
-                    "registration_method": [
-                        "截止：{2023-10-30}",
-                        "通道：{WeChat_MiniProgram}",
-                        "需提交：{GitHub_Repo/Technical_Proposal}"
-                    ]
-                ],
-                
-                "contact_info": {
-                    "email": "ai_competition@pku.edu.cn",
-                    "website": "https://eecs.pku.edu.cn/events",
-                    "emergency_contact": "Tech_Support: 188-xxxx-xxxx"
-                },
-                
-                "visual_elements": {
-                    "e_invitation": "交互式H5（含实验室VR导览）",
-                    "checkin_identifier": "动态报名二维码",
-                    "souvenir": "定制{AI算法手册/树莓派开发套件}"
-                },
-                
-                "notes": [
-                    "* 可兑换北大第二课堂学分",
-                    "* 提供{Linux环境配置指南}预习材料",
-                    "* 需携带{个人电脑/学生证/开发板}"
-                ]
-            
+                    "value_weights": {
+                        "评分维度1": 权重比,
+                        "评分维度2": 权重比
                     }
+                },
+                "core_value": "一句话定义活动价值",
+                "hidden_info": {
+                    "target_audience": ["推断的受众特征"],
+                    "recommended_team": "建议组队方式（如跨学科组队）",
+                    "resource_hint": "隐藏资源（如未公开的专家名单）"
+                },
+                "time": "DD/MM HH:MM 时间格式",
+                "venue": "地点+空间特色（如智能实验室/星空报告厅）",
+                "collabs": ["显性合作方", "推断的潜在合作方"],
+                "tech_stack": ["核心资源", "隐藏资源（如未明说的设备）"],
+                "CTA": {
+                    "online": ["带行动动词的入口"],
+                    "offline": ["地标线索+视觉提示"]
+                }
+            }
+                        
                     
-     }
+       }
                 
                 
                 """
         
-    def design_email(self, input_text):
+    def design_short_text(self, input_text):
          response = self.client.chat.completions.create(
             model = "deepseek-chat",
             messages = [
@@ -199,9 +167,9 @@ class MailDesigner:
         )
          return response.choices[0].message.content
 
-class MailWriter:
+class ShortTextWriter:
     """
-    Write emails based on user input and reference data using Deepseek API.
+    Write short text based on user input and reference data using Deepseek API.
     """
     def __init__(self):
         pass # TODO
@@ -209,12 +177,12 @@ class MailWriter:
 
 if __name__ == "__main__":
     #邮件设计的类
-    input_agent = MailDesigner()
+    input_agent = ShortTextDesigner()
     #调用活动策划案的类来生成活动策划案
-    activity_result=writer.ActivityDesigner()
-    input_text =activity_result.design_activity( "{'type': '比赛', 'subject': 'AI与大模型', 'schedule': '给定数据集和基本的代码，让选手调参', 'objective': '系统性解析大模型技术演进脉络，探讨自然语言处理、多模态学习等领域的最新突破；构建开放交流场域，促进学术界与产业界在算力优化、数据治理、伦理规范等关键议题上的协同创新；激发青年学子技术热忱，通过案例剖析与实战工作坊培养复合型AI人才，助力国家人工智能战略与交叉学科创新发展', 'scale': '待定', 'time': '4月下旬：大模型训练挑战赛预热推送&报名推送，5月中旬：大模型训练挑战赛总结推送', 'place': '北京大学信息科学技术学院', 'cooperation': 'Linux社'}")
+    short_text__result=writer.ActivityDesigner()
+    input_text =short_text__result.design_activity( "{'type': '比赛', 'subject': 'AI与大模型', 'schedule': '给定数据集和基本的代码，让选手调参', 'objective': '系统性解析大模型技术演进脉络，探讨自然语言处理、多模态学习等领域的最新突破；构建开放交流场域，促进学术界与产业界在算力优化、数据治理、伦理规范等关键议题上的协同创新；激发青年学子技术热忱，通过案例剖析与实战工作坊培养复合型AI人才，助力国家人工智能战略与交叉学科创新发展', 'scale': '待定', 'time': '4月下旬：大模型训练挑战赛预热推送&报名推送，5月中旬：大模型训练挑战赛总结推送', 'place': '北京大学信息科学技术学院', 'cooperation': 'Linux社'}")
     
-    analysis_result = input_agent.design_email(input_text)
+    analysis_result = input_agent.design_short_text(input_text)
     print(analysis_result)
 
     # TODO

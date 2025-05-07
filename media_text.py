@@ -1,4 +1,4 @@
-#这个项目实现根据活动策划案生成一个邮件推送，让我们能够在活动开始前给用户发送邮件提醒，并且能够根据用户的活动参与情况生成活动总结报告。
+#这个项目实现根据活动策划案生成一个媒体宣传文案，让我们能够给活动在社交媒体进行宣传
 
 from openai import OpenAI
 import json
@@ -7,9 +7,9 @@ from api_key import deepseek_api_key
 
 deepseek_base_url = "https://api.deepseek.com"
 
-class MailDesigner:
+class MediaTextDesigner:
     """
-    Design mails based on ActivityDesigner using Deepseek API.
+    Design media text based on ActivityDesigner using Deepseek API.
     """
     def __init__(self):
         pass # TODO
@@ -121,74 +121,65 @@ class MailDesigner:
         }
         输出为解析后的活动信息，要求格式为可以推送给参加比赛的用户的邮件内容，包含以下内容：
         {
-            
-                "email_subject": "【北京大学信息科学学院】{Event_Name}邀请函",
-                "recipient_greeting": "尊敬的{Participant_Type}",
-                
-                "body": [
-                    "您好！",
-                    "我们诚挚邀请您参加由北京大学信息科学学院主办的{Event_Name}，以下是活动详细信息：",
-                    
-                    "**活动类型**：{Competition/Lecture/Workshop}",
-                    "**主题方向**：{Technical_Domain}",
-                    "**核心目标**：{Cultivate_Technical_Skills/Industry-Academia_Integration}",
-                    "**时间安排**：{2023-11-15至11-17（含初赛/复赛/决赛）}",
-                    "**活动地点**：{PKU_Wang_Kezhen_Building_Smart_Lab}",
-                    
-                    "**目标受众**：{Target_Audience}",
-                    "**活动规模**：{200_Participants}",
-                    "**知识储备建议**：{Python/DeepLearning_Framework/Blockchain_Basics}",
-                    
-                    "featured_sessions": [
-                        "「{Phase_Name}」：{Technical_Highlights}",
-                        "「{Interactive_Module}」：{Innovation_Description}"
+                        {
+                "social_media_post": {
+                    "platform": ["微信公众号", "微博话题", "B站动态"],
+                    "header": "🔥【48小时AI极限挑战】北大智能实验室喊你来战！",
+                    "content": [
+                        "📢「#智汇燕园AI创新赛」震撼来袭！",
+                        "🎯 三大硬核关卡：",
+                        "   ▫️ 72H图像分类优化战（ImageNet暴风训练）",
+                        "   ▫️ 多模态客服系统开发（语音+文本双模态融合）",
+                        "   ▫️ 8小时智慧校园场景编程（百度真实项目对接）",
+                        
+                        "💎 参赛即得：",
+                        "   ✅ 百度AIGC内推绿色通道",
+                        "   ✅ 阿里云千元算力礼包",
+                        "   ✅ 定制版《PyTorch工程化指南》",
+                        
+                        "🚀 技术buff加成：",
+                        "   ✨ NVIDIA V100集群火力全开",
+                        "   ✨ CCF论文收录快速通道",
+                        "   ✨ 院士领衔导师天团",
+                        
+                        "📅 时间轴：",
+                        "   11.10 报名截止 → 11.15-17 巅峰对决",
+                        "📍 坐标：王克桢楼智能实验室（支持远程接入）",
+                        
+                        "🎁 隐藏福利：",
+                        "   决赛现场抽签赠送【Jetson Nano开发套件】×3！",
+                        
+                        "👇 即刻行动：",
+                        "   微信扫码 → 填写GitHub账号 → 组队开战",
+                        "   （报名二维码动态嵌入）"
                     ],
-                    
-                    "resources_support": [
-                        "{NVIDIA_V100_GPU_Cluster}",
-                        "{Open_Source_Datasets}",
-                        "{Academic_Committee_Formation}"
+                    "visual_elements": {
+                        "封面图": "赛博朋克风格燕园建筑+神经网络流光特效",
+                        "视频预告": "B站AV号：BV1Mz421g7E3（含往届选手炫技片段）",
+                        "互动组件": [
+                            "#AI工程师养成计划 话题互动",
+                            "转发抽奖：华为MatePad × 2"
+                        ]
+                    },
+                    "hashtags": [
+                        "#北京大学人工智能大赛",
+                        "#多模态技术实战",
+                        "#产学研创新实验室",
+                        "#第二课堂学分认证"
                     ],
-                    
-                    "value_added_services": [
-                        "{Partner_Enterprise}实习内推资格",
-                        "{Journal_Publication}收录通道",
-                        "{Cloud_Computing_Credits}免费额度"
-                    ],
-                    
-                    "registration_method": [
-                        "截止：{2023-10-30}",
-                        "通道：{WeChat_MiniProgram}",
-                        "需提交：{GitHub_Repo/Technical_Proposal}"
-                    ]
-                ],
-                
-                "contact_info": {
-                    "email": "ai_competition@pku.edu.cn",
-                    "website": "https://eecs.pku.edu.cn/events",
-                    "emergency_contact": "Tech_Support: 188-xxxx-xxxx"
-                },
-                
-                "visual_elements": {
-                    "e_invitation": "交互式H5（含实验室VR导览）",
-                    "checkin_identifier": "动态报名二维码",
-                    "souvenir": "定制{AI算法手册/树莓派开发套件}"
-                },
-                
-                "notes": [
-                    "* 可兑换北大第二课堂学分",
-                    "* 提供{Linux环境配置指南}预习材料",
-                    "* 需携带{个人电脑/学生证/开发板}"
-                ]
-            
+                    "tech_features": {
+                        "智能匹配": "H5页面自动组队系统",
+                        "云端沙盒": "百度大脑AI Studio在线开发环境",
+                        "评审追踪": "区块链技术存证评分过程"
                     }
-                    
+                }
+            }
      }
                 
                 
                 """
         
-    def design_email(self, input_text):
+    def design_media_text(self, input_text):
          response = self.client.chat.completions.create(
             model = "deepseek-chat",
             messages = [
@@ -199,9 +190,9 @@ class MailDesigner:
         )
          return response.choices[0].message.content
 
-class MailWriter:
+class MediaTextWriter:
     """
-    Write emails based on user input and reference data using Deepseek API.
+    Write media text based on user input and reference data using Deepseek API.
     """
     def __init__(self):
         pass # TODO
@@ -209,12 +200,12 @@ class MailWriter:
 
 if __name__ == "__main__":
     #邮件设计的类
-    input_agent = MailDesigner()
+    input_agent = MediaTextDesigner()
     #调用活动策划案的类来生成活动策划案
     activity_result=writer.ActivityDesigner()
     input_text =activity_result.design_activity( "{'type': '比赛', 'subject': 'AI与大模型', 'schedule': '给定数据集和基本的代码，让选手调参', 'objective': '系统性解析大模型技术演进脉络，探讨自然语言处理、多模态学习等领域的最新突破；构建开放交流场域，促进学术界与产业界在算力优化、数据治理、伦理规范等关键议题上的协同创新；激发青年学子技术热忱，通过案例剖析与实战工作坊培养复合型AI人才，助力国家人工智能战略与交叉学科创新发展', 'scale': '待定', 'time': '4月下旬：大模型训练挑战赛预热推送&报名推送，5月中旬：大模型训练挑战赛总结推送', 'place': '北京大学信息科学技术学院', 'cooperation': 'Linux社'}")
     
-    analysis_result = input_agent.design_email(input_text)
+    analysis_result = input_agent.design_media_text(input_text)
     print(analysis_result)
 
     # TODO

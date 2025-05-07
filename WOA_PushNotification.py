@@ -1,4 +1,4 @@
-#这个项目实现根据活动策划案生成一个邮件推送，让我们能够在活动开始前给用户发送邮件提醒，并且能够根据用户的活动参与情况生成活动总结报告。
+#这个项目实现根据活动策划案生成一个微信公众号推送，让我们能够在微信公众号上发布活动信息。
 
 from openai import OpenAI
 import json
@@ -7,9 +7,9 @@ from api_key import deepseek_api_key
 
 deepseek_base_url = "https://api.deepseek.com"
 
-class MailDesigner:
+class WOAPN_Designer:
     """
-    Design mails based on ActivityDesigner using Deepseek API.
+    Design WOA push notification based on ActivityDesigner using Deepseek API.
     """
     def __init__(self):
         pass # TODO
@@ -119,76 +119,71 @@ class MailDesigner:
                 }
             }
         }
-        输出为解析后的活动信息，要求格式为可以推送给参加比赛的用户的邮件内容，包含以下内容：
+        输出为解析后的活动信息，要求输出为微信公众号推送文，包含以下内容：
         {
             
-                "email_subject": "【北京大学信息科学学院】{Event_Name}邀请函",
-                "recipient_greeting": "尊敬的{Participant_Type}",
-                
-                "body": [
-                    "您好！",
-                    "我们诚挚邀请您参加由北京大学信息科学学院主办的{Event_Name}，以下是活动详细信息：",
+                        {
+                "wechat_public_post": {
+                    "title": "🎉【北大AI巅峰战】72小时开发狂欢！百度/阿里云资源任你用",
+                    "cover_image": "动态赛博风海报（扫码触发AR实验室预览）",
                     
-                    "**活动类型**：{Competition/Lecture/Workshop}",
-                    "**主题方向**：{Technical_Domain}",
-                    "**核心目标**：{Cultivate_Technical_Skills/Industry-Academia_Integration}",
-                    "**时间安排**：{2023-11-15至11-17（含初赛/复赛/决赛）}",
-                    "**活动地点**：{PKU_Wang_Kezhen_Building_Smart_Lab}",
-                    
-                    "**目标受众**：{Target_Audience}",
-                    "**活动规模**：{200_Participants}",
-                    "**知识储备建议**：{Python/DeepLearning_Framework/Blockchain_Basics}",
-                    
-                    "featured_sessions": [
-                        "「{Phase_Name}」：{Technical_Highlights}",
-                        "「{Interactive_Module}」：{Innovation_Description}"
+                    "content": [
+                        "🌟 **核心亮点**",
+                        "▫️ 院士级评委团：5位IEEE Fellow坐镇指导",
+                        "▫️ 真实产业命题：百度智慧城市项目需求拆解",
+                        "▫️ 百万级算力池：NVIDIA V100集群+阿里云弹性资源",
+                        
+                        "🚨 **极限赛程**",
+                        "```",
+                        "11.15 09:00  初赛启动（ImageNet优化冲刺）",
+                        "11.16 14:00  复赛demo日（语音+文本多模态融合）", 
+                        "11.17 09:00  最终决战（智慧校园场景8小时编程）",
+                        "```",
+                        
+                        "💎 **参赛即得**",
+                        "- 百度AIGC部门直通终面卡（前30名）",
+                        "- 《PyTorch工程化指南》实体手册", 
+                        "- 可兑换第二课堂创新学分",
+                        
+                        "🎁 **隐藏福利**",
+                        "> 转发本文至朋友圈 → 抽3人送Jetson Nano套件",
+                        "> 组队参赛队伍 → 额外获赠100元云服务券",
+                        
+                        "📌 **技术指南**",
+                        "❗️ 开发环境：Linux系统（推荐Ubuntu 20.04）",
+                        "❗️ 数据规范：限用MSCOCO/ImageNet公开数据集",
+                        "❗️ 代码审查：GitHub仓库需包含完整commit记录",
+                        
+                        "👇 **报名通道**",
+                        "微信扫码 → 填写组队信息 → 提交GitHub往期项目",
+                        "（动态生成团队专属报名二维码）"
                     ],
                     
-                    "resources_support": [
-                        "{NVIDIA_V100_GPU_Cluster}",
-                        "{Open_Source_Datasets}",
-                        "{Academic_Committee_Formation}"
+                    "interactive_elements": {
+                        "视频嵌入": "B站AV12345678（往届冠军代码复盘）", 
+                        "投票组件": "「最期待技术环节」人气PK（送华为云代金券）",
+                        "地图导航": "王克桢楼智能实验室3D导览"
+                    },
+                    
+                    "tech_features": [
+                        "区块链存证：所有评分记录上链可追溯",
+                        "云端沙盒：百度AI Studio在线开发环境", 
+                        "智能组队：H5页面自动匹配技术互补队友"
                     ],
                     
-                    "value_added_services": [
-                        "{Partner_Enterprise}实习内推资格",
-                        "{Journal_Publication}收录通道",
-                        "{Cloud_Computing_Credits}免费额度"
-                    ],
-                    
-                    "registration_method": [
-                        "截止：{2023-10-30}",
-                        "通道：{WeChat_MiniProgram}",
-                        "需提交：{GitHub_Repo/Technical_Proposal}"
-                    ]
-                ],
-                
-                "contact_info": {
-                    "email": "ai_competition@pku.edu.cn",
-                    "website": "https://eecs.pku.edu.cn/events",
-                    "emergency_contact": "Tech_Support: 188-xxxx-xxxx"
-                },
-                
-                "visual_elements": {
-                    "e_invitation": "交互式H5（含实验室VR导览）",
-                    "checkin_identifier": "动态报名二维码",
-                    "souvenir": "定制{AI算法手册/树莓派开发套件}"
-                },
-                
-                "notes": [
-                    "* 可兑换北大第二课堂学分",
-                    "* 提供{Linux环境配置指南}预习材料",
-                    "* 需携带{个人电脑/学生证/开发板}"
-                ]
-            
+                    "contact": {
+                        "咨询群": "微信扫码添加小助手（回复「组队」自动匹配）",
+                        "紧急联络": "技术支持188-1234-5678（24小时极速响应）",
+                        "邮箱报障": "ai_competition@pku.edu.cn"
                     }
-                    
+                }
+            }
      }
                 
                 
                 """
         
-    def design_email(self, input_text):
+    def design_WOANP(self, input_text):
          response = self.client.chat.completions.create(
             model = "deepseek-chat",
             messages = [
@@ -199,22 +194,22 @@ class MailDesigner:
         )
          return response.choices[0].message.content
 
-class MailWriter:
+class WOAPNWriter:
     """
-    Write emails based on user input and reference data using Deepseek API.
+    Write WOA push notification based on user input and reference data using Deepseek API.
     """
     def __init__(self):
         pass # TODO
 
 
 if __name__ == "__main__":
-    #邮件设计的类
-    input_agent = MailDesigner()
-    #调用活动策划案的类来生成活动策划案
+    
+    input_agent = WOAPN_Designer()
+    #调用活动策划案的类来生成微信公众号的推文
     activity_result=writer.ActivityDesigner()
     input_text =activity_result.design_activity( "{'type': '比赛', 'subject': 'AI与大模型', 'schedule': '给定数据集和基本的代码，让选手调参', 'objective': '系统性解析大模型技术演进脉络，探讨自然语言处理、多模态学习等领域的最新突破；构建开放交流场域，促进学术界与产业界在算力优化、数据治理、伦理规范等关键议题上的协同创新；激发青年学子技术热忱，通过案例剖析与实战工作坊培养复合型AI人才，助力国家人工智能战略与交叉学科创新发展', 'scale': '待定', 'time': '4月下旬：大模型训练挑战赛预热推送&报名推送，5月中旬：大模型训练挑战赛总结推送', 'place': '北京大学信息科学技术学院', 'cooperation': 'Linux社'}")
     
-    analysis_result = input_agent.design_email(input_text)
+    analysis_result = input_agent.design_WOANP(input_text)
     print(analysis_result)
 
     # TODO
