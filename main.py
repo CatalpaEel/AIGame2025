@@ -6,6 +6,7 @@ from input import InputAnalyst
 from designer import ActivityDesigner
 from writer import ArticleWriter, MailWriter, TextWriter, MediaWriter
 from image import ImagePrompter, ImageGenerator
+from reference import Retriever
 
 # Output path
 output_path = "./output"
@@ -18,6 +19,8 @@ print("系统开始运行...")
 input_agent = InputAnalyst()
 design_agent = ActivityDesigner()
 
+rag_agent = Retriever()
+
 article_agent = ArticleWriter()
 mail_agent = MailWriter()
 text_agent = TextWriter()
@@ -26,7 +29,7 @@ media_agent = MediaWriter()
 prompter_agent = ImagePrompter()
 image_agent = ImageGenerator()
 
-# Analyze the input string
+
 input = """
 学长您好，学生会这学期拟举行一个大模型相关的比赛，目前的想法是调参赛（给定数据集和基本的代码，让选手调参）。想请问你们Linux社是否能接下出题的任务[可怜][可怜][可怜]
 
@@ -39,7 +42,12 @@ input = """
 
 工作安排：4月下旬：大模型训练挑战赛预热推送&报名推送，5月中旬：大模型训练挑战赛总结推送
 """
-analysis = input_agent.analyze_input(input, output_path, log_path)
+
+# Retrieve the context
+context = rag_agent.retrieve(input, log_path)
+
+# Analyze the input string
+analysis = input_agent.analyze_input(input, context, output_path, log_path)
 
 # Write part
 def write():
