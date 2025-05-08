@@ -1,5 +1,6 @@
 import threading
 import time
+import json
 
 from input import InputAnalyst
 from designer import ActivityDesigner
@@ -40,24 +41,53 @@ input = """
 """
 analysis = input_agent.analyze_input(input, output_path, log_path)
 
-# Design activities
-design = design_agent.design_activity(analysis, output_path, log_path)
+# Write part
+def write():
+    # Design activities
+    design = design_agent.design_activity(analysis, output_path, log_path)
 
-# Write complete set of promotional copy through multithreading
-article_thread = threading.Thread(target=article_agent.write_article, args=(design, output_path, log_path))
-mail_thread = threading.Thread(target=mail_agent.write_mail, args=(design, output_path, log_path))
-text_thread = threading.Thread(target=text_agent.write_text, args=(design, output_path, log_path))
-media_thread = threading.Thread(target=media_agent.write_media, args=(design, output_path, log_path))
+    # Write complete set of promotional copy through multithreading
+    article_thread = threading.Thread(target=article_agent.write_article, args=(design, output_path, log_path))
+    mail_thread = threading.Thread(target=mail_agent.write_mail, args=(design, output_path, log_path))
+    text_thread = threading.Thread(target=text_agent.write_text, args=(design, output_path, log_path))
+    media_thread = threading.Thread(target=media_agent.write_media, args=(design, output_path, log_path))
 
-article_thread.start()
-mail_thread.start()
-text_thread.start()
-media_thread.start()
+    article_thread.start()
+    mail_thread.start()
+    text_thread.start()
+    media_thread.start()
 
-article_thread.join()
-mail_thread.join()
-text_thread.join()
-media_thread.join()
+    article_thread.join()
+    mail_thread.join()
+    text_thread.join()
+    media_thread.join()
+
+# Image part
+def image():
+    # Load reference
+    with open("./ref/img_ref.json", "r", encoding='utf-8') as f:
+        ref_json = json.loads(f.read())
+    
+    reference = ""
+    for ref in ref_json:
+        reference += ref["name"] + ': ' + ref["prompt"] + '\n'
+    with open(log_path, "a", encoding='utf-8') as f:
+        print(f"参考提示词：\n{reference}\n", file=f)
+    
+    # Generate prompt
+    prompt = prompter_agent.generate_prompt(analysis, reference, log_path)
+
+    # Generate image
+    image = image_agent.generate_image(prompt, output_path)
+
+write_thread = threading.Thread(target=write)
+image_thread = threading.Thread(target=image)
+
+write_thread.start()
+image_thread.start()
+
+write_thread.join()
+image_thread.join()
 
 # Complete
 end_time = time.time()

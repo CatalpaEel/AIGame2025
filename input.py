@@ -16,7 +16,7 @@ class InputAnalyst:
         你是北京大学信息科学学院学生会的一名经验丰富的同学。
         你将要帮助用户解析出活动的显性信息（活动类型、主题方向、初步构想等），并通过推理补全隐性信息（隐性信息：目标受众、活动规模、时间安排、可能的合作方等）。
         系统应自主判断并补全信息缺失项，无需用户额外输入。
-        输出格式为json字符串，包含以下字段：
+        输出格式包含以下内容：
         - 活动类型：讲座、比赛、展览等
         - 主题方向：人工智能、区块链等）
         - 初步构想：详细的比赛规则等
@@ -42,12 +42,8 @@ class InputAnalyst:
         print(f"输入分析完成，用时：{round(end_time-start_time, 2)}s")
 
         if log is not None:
-            with open(f"{output}/log", "a", encoding="utf-8") as f:
+            with open(f"{log}", "a", encoding="utf-8") as f:
                 print(f"输入分析：\n{response.choices[0].message.content}\n", file=f)
-
-        if output is not None:
-            with open(f"{output}/输入分析.txt", "w", encoding="utf-8") as f:
-                print(response.choices[0].message.content, file=f)
 
         return response.choices[0].message.content
 

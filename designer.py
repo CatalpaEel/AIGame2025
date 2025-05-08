@@ -32,7 +32,7 @@ class ActivityDesigner:
         print(f"活动策划完成，用时：{round(end_time-start_time, 2)}s")
 
         if log is not None:
-            with open(f"{output}/log", "a", encoding="utf-8") as f:
+            with open(f"{log}", "a", encoding="utf-8") as f:
                 print(f"活动策划案思考过程：\n{response.choices[0].message.reasoning_content}\n", file=f)
                 print(f"生成活动策划案：\n{response.choices[0].message.content}\n", file=f)
 
