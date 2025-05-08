@@ -1,3 +1,5 @@
+import time
+
 from openai import OpenAI
 
 from api_key import deepseek_api_key
@@ -87,7 +89,9 @@ class ArticleWriter:
         主办方 | 信科团委文体中心
         """
 
-    def write_article(self, input):
+    def write_article(self, input, output=None, log=None):
+        start_time = time.time()
+        print("微信公众号文案写作开始...")
         response = self.client.chat.completions.create(
             model = "deepseek-chat",
             messages = [
@@ -96,6 +100,17 @@ class ArticleWriter:
             ],
             stream = False
         )
+        end_time = time.time()
+        print(f"微信公众号文案写作完成，用时：{round(end_time-start_time, 2)}s")
+
+        if log is not None:
+            with open(f"{output}/log", "w", encoding="utf-8") as f:
+                print(f"生成微信公众号文案：\n{response.choices[0].message.content}\n", file=f)
+
+        if output is not None:
+            with open(f"{output}/微信公众号文案.txt", "w", encoding="utf-8") as f:
+                print(response.choices[0].message.content, file=f)
+
         return response.choices[0].message.content
 
 
@@ -133,7 +148,9 @@ class MailWriter:
         学生工作办公室
         """
 
-    def write_mail(self, input):
+    def write_mail(self, input, output=None, log=None):
+        start_time = time.time()
+        print("邮件通知写作开始...")
         response = self.client.chat.completions.create(
             model = "deepseek-chat",
             messages = [
@@ -142,6 +159,17 @@ class MailWriter:
             ],
             stream = False
         )
+        end_time = time.time()
+        print(f"邮件通知写作完成，用时：{round(end_time-start_time, 2)}s")
+
+        if log is not None:
+            with open(f"{output}/log", "w", encoding="utf-8") as f:
+                print(f"生成邮件通知：\n{response.choices[0].message.content}\n", file=f)
+
+        if output is not None:
+            with open(f"{output}/邮件通知.txt", "w", encoding="utf-8") as f:
+                print(response.choices[0].message.content, file=f)
+
         return response.choices[0].message.content
 
 
@@ -154,7 +182,9 @@ class TextWriter:
         钟声敲响，灯火可亲！新年晚会邀你共赴团圆盛宴，用歌舞点亮夜空，让欢笑填满岁末时光！
         """
     
-    def write_text(self, input):
+    def write_text(self, input, output=None, log=None):
+        start_time = time.time()
+        print("短文本宣传语写作开始...")
         response = self.client.chat.completions.create(
             model = "deepseek-chat",
             messages = [
@@ -163,6 +193,17 @@ class TextWriter:
             ],
             stream = False
         )
+        end_time = time.time()
+        print(f"短文本宣传语写作完成，用时：{round(end_time-start_time, 2)}s")
+
+        if log is not None:
+            with open(f"{output}/log", "w", encoding="utf-8") as f:
+                print(f"生成短文本宣传语：\n{response.choices[0].message.content}\n", file=f)
+
+        if output is not None:
+            with open(f"{output}/短文本宣传语.txt", "w", encoding="utf-8") as f:
+                print(response.choices[0].message.content, file=f)
+
         return response.choices[0].message.content
 
 
@@ -179,7 +220,9 @@ class MediaWriter:
         #新年晚会 #跨年狂欢 #一起迎接 2024
         """
 
-    def write_media(self, input):
+    def write_media(self, input, output=None, log=None):
+        start_time = time.time()
+        print("社交媒体宣传文案写作开始...")
         response = self.client.chat.completions.create(
             model = "deepseek-chat",
             messages = [
@@ -188,6 +231,17 @@ class MediaWriter:
             ],
             stream = False
         )
+        end_time = time.time()
+        print(f"社交媒体宣传文案写作完成，用时：{round(end_time-start_time, 2)}s")
+
+        if log is not None:
+            with open(f"{output}/log", "w", encoding="utf-8") as f:
+                print(f"生成社交媒体宣传文案：\n{response.choices[0].message.content}\n", file=f)
+
+        if output is not None:
+            with open(f"{output}/社交媒体宣传文案.txt", "w", encoding="utf-8") as f:
+                print(response.choices[0].message.content, file=f)
+
         return response.choices[0].message.content
 
 

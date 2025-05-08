@@ -1,4 +1,5 @@
 from openai import OpenAI
+import time
 
 from api_key import deepseek_api_key
 
@@ -12,11 +13,13 @@ class ActivityDesigner:
         self.client = OpenAI(api_key=deepseek_api_key, base_url=deepseek_base_url)
         self.system_prompt = """
         你是一名活动设计师。
-        你需要根据用户提供的活动信息，设计详细的活动策划案，包括活动流程和时间安排建议等。
+        你需要根据用户提供的活动信息，设计详细的活动策划案，包括活动流程和时间安排建议等。不要输出多余信息。
         如果是竞赛类活动请深度思考并详细设计合理的赛题、规则与评分标准。
         """
         
-    def design_activity(self, input):
+    def design_activity(self, input, output=None, log=None):
+        start_time = time.time()
+        print("活动策划开始...")
         response = self.client.chat.completions.create(
             model = "deepseek-reasoner",
             messages = [
@@ -25,7 +28,18 @@ class ActivityDesigner:
             ],
             stream = False
         )
-        print("活动策划案思考过程：\n" + response.choices[0].message.reasoning_content)
+        end_time = time.time()
+        print(f"活动策划完成，用时：{round(end_time-start_time, 2)}s")
+
+        if log is not None:
+            with open(f"{output}/log", "w", encoding="utf-8") as f:
+                print(f"活动策划案思考过程：\n{response.choices[0].message.reasoning_content}\n", file=f)
+                print(f"生成活动策划案：\n{response.choices[0].message.content}\n", file=f)
+
+        if output is not None:
+            with open(f"{output}/活动策划案.txt", "w", encoding="utf-8") as f:
+                print(response.choices[0].message.content, file=f)
+
         return response.choices[0].message.content
 
 
