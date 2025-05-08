@@ -28,7 +28,7 @@ class ImageGenerator:
         response = self.visual_service.cv_process(form)
         image = base64.b64decode(response['data']['binary_data_base64'][0])
         end_time = time.time()
-        print(f"主视觉生成完成，用时{round(end_time-start_time, 2)}s")
+        print(f"主视觉生成完成，用时：{round(end_time-start_time, 2)}s")
         if image is not None:
             with open(f"{output}/image.png", "wb") as f:
                 f.write(image)
