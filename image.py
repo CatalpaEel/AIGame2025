@@ -50,7 +50,7 @@ class ImagePrompter:
         start_time = time.time()
         print("文生图提示词生成开始...")
         response = self.client.chat.completions.create(
-            model="deepseek-chat",
+            model="deepseek-reasoner",
             messages=[
                 {"role": "system", "content": self.system_prompt + reference},
                 {"role": "user", "content": input},
@@ -62,6 +62,7 @@ class ImagePrompter:
         prompt = response.choices[0].message.content
         if log is not None:
             with open(log, "a", encoding='utf-8') as f:
+                print(f"文生图思考过程：\n{response.choices[0].message.reasoning_content}\n", file=f)
                 print(f"文生图提示词：\n{prompt}\n", file=f)
         return prompt
 

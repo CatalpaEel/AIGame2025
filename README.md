@@ -11,7 +11,7 @@ volcengine==1.0.183
 
 ## 运行方式
 
-在`AIGame2025`目录下补充`api-key.py`文件：
+在`AIGame2025`目录下补充`api_key.py`文件：
 
 ```python
 deepseek_api_key = "<your_deepseek_api_key>"
