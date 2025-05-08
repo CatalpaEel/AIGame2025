@@ -1,131 +1,113 @@
 import os
-import time
+import warnings
+
 from openai import OpenAI
+from langchain_community.document_loaders import TextLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter 
+from langchain_community.vectorstores import Chroma
 
-# 配置信息
-deepseek_api_key = "[api_key]"
-deepseek_base_url = "https://chat.noc.pku.edu.cn/v1"
-DATA_DIR = "datatvss_txt"
-OUTPUT_FILE = f"PKU_Commentary_{int(time.time())}.json"
 
-class AcademicCritiqueEngine:
-    """
-    北京大学信息科学传播内容批判性分析引擎
-    提供结构化战略分析框架
-    """
+from api_key import doubao_api_key, deepseek_api_key
+
+deepseek_base_url = "https://api.deepseek.com"
+
+class DataCleaner():
     def __init__(self):
         self.client = OpenAI(api_key=deepseek_api_key, base_url=deepseek_base_url)
-        self.system_prompt =  """
-作为北京大学新媒体内容战略分析师，请基于学院往期推文进行深度解构分析，输出包含传播学洞察和创作方法论的结构化JSON。
+        self.system_prompt = """
+        你是一名数据集清理专家，请对用户输入的数据进行数据清理，尽可能保留有用知识，最后格式为普通段落型，不得使用特殊排版符号，不得输出提示信息等多余信息。
+        """
+    def clear(self, input):
+        response = self.client.chat.completions.create(
+            model = "deepseek-chat",
+            messages = [
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": input},
+            ],
+            stream = False
+        )
+        return response.choices[0].message.content
 
-格式要求：
-{
-  "结构解构": {
-    "框架": ["争议话题切入", "教授深度解读", "校友成就举证"],
-    "解读": "采用霍尔的编码/解码理论构建认知路径，开篇危机叙事形成强吸引..."
-  },
-  "风格画像": {
-    "特征矩阵": ["学术权威性50%", "青年文化共鸣30%"],
-    "修辞分析": "通过三联追问法建立对话感，产业界案例与学术术语形成对仗修辞..."
-  },
-  "符号体系": {
-    "核心符号": ["自主芯片", "交叉学科"],
-    "符号转化": "将电竞术语'超神'转译为'算法突破阈值'，实现青年亚文化嫁接..."
-  },
-  "参与设计": {
-    "互动机制": "悬念阶梯：行业难题→本院方案→开放验证",
-    "行为引导": "从认知共鸣到身份认同的转化路径设计..."
-  },
-  "战略建议": {
-    "改进方向": "增加产业界失败案例反衬本院成果",
-    "理论依据": "参照格伯纳的培养理论强化品牌形象..."
-  }
-}
 
-分析要求：
-1. 每个字段需包含50字左右的专业解读
-2. 突出学院"硬核+亲和"的品牌二元性
-3. 揭示内容设计的传播心理学原理
-4. 标注可复用的创作模因(内容基因)
-"""
+class Embeddings():
+    def __init__(self):
+        self.client = OpenAI(api_key=doubao_api_key, base_url="https://ark.cn-beijing.volces.com/api/v3")
 
-    def generate_critique(self, text):
-        """执行结构化内容分析"""
-        try:
-            response = self.client.chat.completions.create(
-                model="deepseek-chat",
-                messages=[
-                    {"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": f"分析以下文本：\n{text}"}
-                ],
-                temperature=0.3,
-                top_p=0.95,
-                max_tokens=3000,
-                response_format={"type": "json_object"}
-            )
+    def embed_query(self, input):
+        embeddings = self.client.embeddings.create(
+            model="doubao-embedding-large-text-240915",
+            input=input,
+            encoding_format="float"
+        )
+        return embeddings.data[0].embedding
+    
+    def embed_documents(self, inputs):
+        return [self.embed_query(input) for input in inputs]
 
-            if response.choices[0].message.content:
-                # 验证JSON格式
-                json.loads(response.choices[0].message.content)
-                return response.choices[0].message.content
-            raise Exception("Empty response")
 
-        except json.JSONDecodeError:
-            return json.dumps({"error": "Invalid JSON format"})
-        except Exception as e:
-            return json.dumps({"error": str(e)})
+class Embedder():
+    def __init__(self):
+        self.db_path = "./ref/chroma_db"
+        if os.path.isdir(self.db_path):
+            self.load()
+        else:
+            self.build()
 
-def generate_metadata():
-    """生成报告元数据"""
-    return {
-        "project": "PKU-IST内容战略分析",
-        "version": "2.1",
-        "timestamp": int(time.time()),
-        "analyst": "AcademicCritiqueEngine",
-        "data_source": DATA_DIR
-    }
+    def load(self):
+        self.embeddings = Embeddings()
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore") # LangChainDeprecationWarning: The class `Chroma` was deprecated in LangChain 0.2.9 and will be removed in 1.0.
+            self.vectorstore = Chroma(persist_directory=self.db_path, embedding_function=self.embeddings)
+
+    def build(self):
+        # Load
+        loader = TextLoader("./ref/data", encoding='utf-8')
+        documents = loader.load()
+        # Split
+        text_splitter = RecursiveCharacterTextSplitter (chunk_size=200, chunk_overlap=50)
+        chunks = text_splitter.split_documents(documents)
+        # Embed
+        self.embeddings = Embeddings()
+        self.vectorstore = Chroma.from_documents(chunks, self.embeddings, persist_directory=self.db_path)
+        self.vectorstore.persist()
+
+
+class Retriever():
+    def __init__(self):
+        embed_agent = Embedder()
+        vectorstore = embed_agent.vectorstore
+        self.retriever = vectorstore.as_retriever()
+    
+    def retrieve(self, input, log=None):
+        related_docs = self.retriever.invoke(input)
+        context = "\n".join([doc.page_content for doc in related_docs])
+        if log is not None:
+            with open(log, "a", encoding='utf-8') as f:
+                print(f"对输入检索增强结果：\n{context}\n", file=f)
+        return context
+
 
 if __name__ == "__main__":
-    analyzer = AcademicCritiqueEngine()
-    report = {
-        "metadata": generate_metadata(),
-        "analyses": []
-    }
+    # clean_agent = DataCleaner()
+    # with open("./ref/tmp", "r", encoding='utf-8') as f:
+    #     data = f.read()
+    # cleaned_data = clean_agent.clear(data)
+    # with open("./ref/data", "a", encoding='utf-8') as f:
+    #     print(cleaned_data, file=f)
 
-    # 遍历数据文件
-    for filename in sorted(os.listdir(DATA_DIR)):
-        if not filename.endswith(".txt"):
-            continue
+    input = """
+    学长您好，学生会这学期拟举行一个大模型相关的比赛，目前的想法是调参赛（给定数据集和基本的代码，让选手调参）。想请问你们Linux社是否能接下出题的任务[可怜][可怜][可怜]
 
-        filepath = os.path.join(DATA_DIR, filename)
-        try:
-            with open(filepath, "r", encoding="utf-8") as f:
-                content = f.read()
-        except UnicodeDecodeError:
-            with open(filepath, "r", encoding="gbk") as f:
-                content = f.read()
+    北京大学信息科学技术学院举办"AI与大模型"主题活动，旨在搭建产学研深度对话平台，通过前沿技术分享、应用场景探讨与跨学科思维碰撞，推动大模型技术的创新突破与落地实践。
 
-        analysis_entry = {
-            "filename": filename,
-            "content_hash": hash(content),
-            "preview": content[:200] + "...[truncated]",
-            "analysis": None,
-            "error": None
-        }
+    活动聚焦三大核心目标：
+    一是系统性解析大模型技术演进脉络，探讨自然语言处理、多模态学习等领域的最新突破；
+    二是构建开放交流场域，促进学术界与产业界在算力优化、数据治理、伦理规范等关键议题上的协同创新；
+    三是激发青年学子技术热忱，通过案例剖析与实战工作坊培养复合型AI人才，助力国家人工智能战略与交叉学科创新发展。
 
-        try:
-            critique = analyzer.generate_critique(content)
-            analysis_entry["analysis"] = json.loads(critique)
-        except Exception as e:
-            analysis_entry["error"] = str(e)
+    工作安排：4月下旬：大模型训练挑战赛预热推送&报名推送，5月中旬：大模型训练挑战赛总结推送
+    """
 
-        report["analyses"].append(analysis_entry)
-        print(f"Processed: {filename}")
-
-    # 写入JSON文件
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(report, f, indent=2, ensure_ascii=False)
-
-    print(f"\n分析报告已生成：{OUTPUT_FILE}")
-    print(f"总分析文件数：{len(report['analyses'])}")
-    print(f"错误文件数：{len([x for x in report['analyses'] if x['error']])}")
+    rag_agent = Retriever()
+    context = rag_agent.retrieve(input)
+    print(context)
