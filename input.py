@@ -1,5 +1,4 @@
 from openai import OpenAI
-import json
 import time
 
 from api_key import deepseek_api_key
@@ -18,14 +17,14 @@ class InputAnalyst:
         你将要帮助用户解析出活动的显性信息（活动类型、主题方向、初步构想等），并通过推理补全隐性信息（隐性信息：目标受众、活动规模、时间安排、可能的合作方等）。
         系统应自主判断并补全信息缺失项，无需用户额外输入。
         输出格式为json字符串，包含以下字段：
-        - type: 活动类型（如：讲座、比赛、展览等）
-        - subject: 主题方向（如：人工智能、区块链等）
-        - schedule: 初步构想（如：详细的比赛规则等）
-        - objective: 活动目的（如：提高学生的专业技能、促进学术交流等）
-        - scale: 活动规模（如：50人、200人等）
-        - time: 时间安排（如：2023年10月1日、2023年10月1日至2023年10月5日等）
-        - place: 活动地点（如：信息科学技术学院、某某教室等）
-        - cooperation: 可能的合作方（如：某某公司、某某学校、其他学院、社团等）
+        - 活动类型：讲座、比赛、展览等
+        - 主题方向：人工智能、区块链等）
+        - 初步构想：详细的比赛规则等
+        - 活动目的：提高学生的专业技能、促进学术交流等
+        - 活动规模：50人、200人等
+        - 时间安排：2023年10月1日、2023年10月1日至2023年10月5日等
+        - 活动地点：信息科学技术学院、某某教室等
+        - 可能的合作方：某某公司、某某学校、其他学院、社团等
         """
 
     def analyze_input(self, input, output=None, log=None):
@@ -37,21 +36,20 @@ class InputAnalyst:
                 {"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": input},
             ],
-            response_format = { "type": "json_object" },
             stream = False
         )
         end_time = time.time()
         print(f"输入分析完成，用时：{round(end_time-start_time, 2)}s")
 
         if log is not None:
-            with open(f"{output}/log", "w", encoding="utf-8") as f:
+            with open(f"{output}/log", "a", encoding="utf-8") as f:
                 print(f"输入分析：\n{response.choices[0].message.content}\n", file=f)
 
         if output is not None:
             with open(f"{output}/输入分析.txt", "w", encoding="utf-8") as f:
                 print(response.choices[0].message.content, file=f)
 
-        return json.loads(response.choices[0].message.content)
+        return response.choices[0].message.content
 
 
 if __name__ == "__main__":

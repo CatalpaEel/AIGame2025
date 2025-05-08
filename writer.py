@@ -104,7 +104,7 @@ class ArticleWriter:
         print(f"微信公众号文案写作完成，用时：{round(end_time-start_time, 2)}s")
 
         if log is not None:
-            with open(f"{output}/log", "w", encoding="utf-8") as f:
+            with open(f"{output}/log", "a", encoding="utf-8") as f:
                 print(f"生成微信公众号文案：\n{response.choices[0].message.content}\n", file=f)
 
         if output is not None:
@@ -163,7 +163,7 @@ class MailWriter:
         print(f"邮件通知写作完成，用时：{round(end_time-start_time, 2)}s")
 
         if log is not None:
-            with open(f"{output}/log", "w", encoding="utf-8") as f:
+            with open(f"{output}/log", "a", encoding="utf-8") as f:
                 print(f"生成邮件通知：\n{response.choices[0].message.content}\n", file=f)
 
         if output is not None:
@@ -197,7 +197,7 @@ class TextWriter:
         print(f"短文本宣传语写作完成，用时：{round(end_time-start_time, 2)}s")
 
         if log is not None:
-            with open(f"{output}/log", "w", encoding="utf-8") as f:
+            with open(f"{output}/log", "a", encoding="utf-8") as f:
                 print(f"生成短文本宣传语：\n{response.choices[0].message.content}\n", file=f)
 
         if output is not None:
@@ -235,7 +235,7 @@ class MediaWriter:
         print(f"社交媒体宣传文案写作完成，用时：{round(end_time-start_time, 2)}s")
 
         if log is not None:
-            with open(f"{output}/log", "w", encoding="utf-8") as f:
+            with open(f"{output}/log", "a", encoding="utf-8") as f:
                 print(f"生成社交媒体宣传文案：\n{response.choices[0].message.content}\n", file=f)
 
         if output is not None:
