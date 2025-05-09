@@ -52,7 +52,7 @@ analysis = input_agent.analyze_input(input, context, output_path, log_path)
 # Write part
 def write():
     # Design activities
-    design = design_agent.design_activity(analysis, output_path, log_path)
+    design = design_agent.design_activity(analysis, context, output_path, log_path)
 
     # Write complete set of promotional copy through multithreading
     article_thread = threading.Thread(target=article_agent.write_article, args=(design, output_path, log_path))
